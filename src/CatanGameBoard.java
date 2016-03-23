@@ -14,10 +14,49 @@ import java.util.*;
 public class CatanGameBoard extends JPanel {
 
     static Dimension screenSize;
-    Polygon[] polygons = new Polygon[19];
+    static Polygon[] polygons = new Polygon[19];
     static Point[] points = new Point[54];
+    static int[][] neighbouringVertices = new int[72][2];
 
+    public static void setNeighbouringVertices() {
+        for (int i = 1; i < 4; i++) {
+            neighbouringVertices[i - 1] = new int[]{i, i + 3};
+        }
 
+        for (int i = 1; i < 12; i++) {
+            neighbouringVertices[i + 2] = new int[]{i, i + 4};
+        }
+
+        for (int i = 8; i < 22; i++) {
+            neighbouringVertices[i + 6] = new int[]{i, i + 5};
+        }
+
+        for (int i = 17; i < 33; i++) {
+            neighbouringVertices[i + 11] = new int[]{i, i + 6};
+        }
+
+        for (int i = 29; i < 43; i++) {
+            neighbouringVertices[i + 15] = new int[]{i,i + 5};
+        }
+
+        for (int i = 40; i < 51; i++) {
+            neighbouringVertices[i + 18] = new int[]{i,i + 4};
+        }
+
+        for (int i = 49; i < 52; i++) {
+            neighbouringVertices[i + 20] = new int[]{i,i + 3};
+        }
+    }
+
+    public boolean areNeighbouringVertices(int a, int b) {
+        for (int i = 0; i < neighbouringVertices.length; i++) {
+            if ((neighbouringVertices[i][0] == a && neighbouringVertices[i][1] == b) || (neighbouringVertices[i][0]
+                    == b && neighbouringVertices[i][1] == a))
+                return true;
+        }
+
+        return false;
+    }
 
     public static void setVerticesIndex() {
         for (int i = 0; i < 3; i++) {
@@ -128,6 +167,7 @@ public class CatanGameBoard extends JPanel {
             }
         });
         setVerticesIndex();
+        setNeighbouringVertices();
         Container contentPane = new Container();
         JScrollPane scrollPane = new JScrollPane(new CatanGameBoard()); 
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);  
